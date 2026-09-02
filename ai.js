@@ -227,16 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'command-r-plus-08-2024',
-          preamble: window.SystemPrompt || '', // Đọc prompt companion từ systemprompt.js
-          message: finalPrompt,
-          chat_history: conversationHistory,
-          temperature: 0.4, // Độ chính xác cao cho học tập
-          p: 0.9,
-          frequency_penalty: 0.2,
-          max_tokens: 1200
-        })
-      });
+     model: 'command-r-plus-08-2024',
+     preamble: sysPrompt,
+     message: "[HỆ THỐNG]: Hãy viết tiếp diễn biến tiếp theo một cách tự nhiên.",
+     chat_history: conversationHistory,
+     temperature: 0.7,
+     max_tokens: 1000
+   })
 
       const data = await response.json();
 
