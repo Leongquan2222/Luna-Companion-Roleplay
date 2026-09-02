@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'command-r-plus-08-2024',
+          model: 'command-a-vision-07-2025',
           preamble: window.SystemPrompt || '',
           message: "[HỆ THỐNG]: Hãy giải thích hoặc viết tiếp ý còn dang dở một cách tự nhiên và chính xác.",
           chat_history: conversationHistory,
