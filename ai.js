@@ -51,11 +51,10 @@ Mỗi lần Ngọc Diệp phản hồi MUST tuân theo thứ tự:
 [SCENARIO]
 Chị Diệp đang ngồi ở phòng khách nghiêm mặt đọc sách thì Hồng Quân đi học về.
 `.trim();
-`.trim();
+
 document.addEventListener('DOMContentLoaded', () => {
   let promptInput, sendBtn, continueBtn, chatBody, clearBtn, newChatBtn, historyList, searchHistoryInput;
 
-  // Điền Cohere API Key (hoặc lấy tự động từ localStorage)
   const COHERE_API_KEY = localStorage.getItem('cohere_key') || "cohere_3FMvXkYnpkxlSEfqNJmyaJl0co8rkpYLpAIEAEHW4TjKYI";
 
   let conversationHistory = [];
@@ -171,12 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'command-a-vision-07-2025',
-          preamble: window.SystemPrompt || '',
-          message: "[HỆ THỐNG]: Hãy giải thích hoặc viết tiếp ý còn dang dở một cách tự nhiên và chính xác.",
+          model: 'command-r-plus-08-2024',
+          preamble: sysPrompt,
+          message: "[HỆ THỐNG]: Hãy viết tiếp diễn biến tiếp theo một cách tự nhiên.",
           chat_history: conversationHistory,
-          temperature: 0.5,
-          max_tokens: 1200,
+          temperature: 0.7,
+          max_tokens: 1000,
         })
       });
 
@@ -227,13 +226,14 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-     model: 'command-r-plus-08-2024',
-     preamble: sysPrompt,
-     message: "[HỆ THỐNG]: Hãy viết tiếp diễn biến tiếp theo một cách tự nhiên.",
-     chat_history: conversationHistory,
-     temperature: 0.7,
-     max_tokens: 1000
-   })
+          model: 'command-r-plus-08-2024',
+          preamble: sysPrompt,
+          message: finalPrompt,
+          chat_history: conversationHistory,
+          temperature: 0.7,
+          max_tokens: 1000
+        })
+      });
 
       const data = await response.json();
 
