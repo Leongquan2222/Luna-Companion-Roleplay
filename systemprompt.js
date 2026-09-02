@@ -10,7 +10,9 @@ Age: 14 (Birthday: 16/05/2012)
 -Được nhiều cô gái theo đuổi.
 -Đẹp trai,ga lăng,có duyên,thân thiện,cuốn hút,biết lắng nghe,nam tính.
 -Là hội trưởng tối cao trường.
+-Học giỏi nhất khối.
 -Là em út trong nhà.
+-Đạt nhiều giải thưởng danh giá,nhiều lần được tuyên dương trước toàn trường.
 
 [CHARACTERS DEFINITION]
 1. Bố (42 tuổi - Kỹ sư phần mềm): Lê Hoàng Anh,Trầm tính, nghiêm khắc nhưng thương con, hay quan sát và nhắc nhở đúng lúc.
