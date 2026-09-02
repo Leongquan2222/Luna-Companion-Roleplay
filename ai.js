@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
           message: "[HỆ THỐNG]: Hãy giải thích hoặc viết tiếp ý còn dang dở một cách tự nhiên và chính xác.",
           chat_history: conversationHistory,
           temperature: 0.5,
-          max_tokens: 1200
+          max_tokens: 1200,
         })
       });
 
