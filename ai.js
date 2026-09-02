@@ -1,39 +1,21 @@
-// Đọc SystemPrompt từ file systemprompt.js nếu có, hoặc dùng mặc định
-const sysPrompt = window.SystemPrompt || `
-Bạn là Luna - một nữ gia sư AI thông minh, sắc sảo và điềm tĩnh.
-Nhiệm vụ: Hướng dẫn người dùng học tập (Toán, Tiếng Anh, Lập trình, Khoa học).
-
-[QUY TẮC PHẢN HỒI & XƯNG HÔ - BẮT BUỘC]:
-1. Xưng hô tuyệt đối: Luôn xưng "chị" (hoặc "Luna") và gọi người dùng là "em". BẤT KỂ người dùng xưng hô thế nào, KHÔNG BAO GIỜ xưng "em" hay dùng từ kính ngữ bề dưới như "ạ", "dạ".
-2. Phong cách: Ngắn gọn, súc tích, đi thẳng vào vấn đề, rõ ràng, không dài dòng lê thê.
-3. Không biết thông tin: Thừa nhận thẳng thắn và đề xuất hướng tìm kiếm.
-4. Trò chơi lịch sử/văn học: Dựa vào thông tin tra cứu, KHÔNG tự bịa nguyên văn hay râu ông nọ chắp cằm bà kia.
-
-[ĐỊNH DẠNG TOÁN / KHOA HỌC]:
-1. BẮT BUỘC dùng LaTeX cho công thức.
-2. Công thức inline (cùng dòng): Bọc trong 1 dấu $: $x + y = z$.
-3. Công thức display (dòng riêng): Bọc trong 2 dấu $$ ở dòng riêng biệt. KHÔNG dùng ngoặc vuông [ ].
-4. Giải toán từng bước: PHẢI xuống dòng riêng cho từng bước biến đổi, không viết dính liền.
-
-[ĐỊNH DẠNG LẬP TRÌNH]:
-Trình bày code sạch sẽ trong block Markdown \`\`\`language ... \`\`\` và giải thích logic ngắn gọn.
-`.trim();
-
 document.addEventListener('DOMContentLoaded', () => {
-  let promptInput, sendBtn, chatBody, clearBtn, newChatBtn, historyList, searchHistoryInput;
+  let promptInput, sendBtn, continueBtn, chatBody, clearBtn, newChatBtn, historyList, searchHistoryInput;
 
-  const MISTRAL_API_KEY = "FVYswNhYiJNkmiwR3LqOJhEe5wx6pKJ8";
+  // Điền Cohere API Key (hoặc lấy tự động từ localStorage)
+  const COHERE_API_KEY = localStorage.getItem('cohere_key') || "cohere_3FMvXkYnpkxlSEfqNJmyaJl0co8rkpYLpAIEAEHW4TjKYI";
 
   let conversationHistory = [];
   let savedHistory = JSON.parse(localStorage.getItem('luna_chat_history') || '[]');
 
+  // --- 1. HIỂN THỊ TIN NHẮN ---
   function appendMessage(sender, text, roleClass) {
     if (!chatBody) return;
     const msgDiv = document.createElement('div');
     msgDiv.className = `message ${roleClass} mb-3`;
     
     const formattedContent = window.marked ? window.marked.parse(text) : text;
-    msgDiv.innerHTML = `<strong>${sender}:</strong> <div>${formattedContent}</div>`;
+    const senderHeader = sender ? `<strong>${sender}:</strong> ` : '';
+    msgDiv.innerHTML = `${senderHeader}<div>${formattedContent}</div>`;
     chatBody.appendChild(msgDiv);
     chatBody.scrollTop = chatBody.scrollHeight;
 
@@ -58,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHistorySidebar(e.target.value);
   }
 
+  // --- 2. QUẢN LÝ LỊCH SỬ CHAT ---
   function saveToLocalStorage(userMsg, aiMsg) {
     const timestamp = new Date().toLocaleString('vi-VN');
     const chatSession = {
@@ -102,12 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
     conversationHistory = [];
     session.messages.forEach(msg => {
       appendMessage(msg.sender, msg.text, msg.roleClass);
-      const role = msg.sender === "Em" ? "user" : "assistant";
-      conversationHistory.push({ role: role, content: msg.text });
+      const role = msg.sender === "Em" || msg.sender === "Hồng Quân" ? "USER" : "CHATBOT";
+      conversationHistory.push({ role: role, message: msg.text });
     });
   }
 
-  // --- HÀM TRA CỨU DUCKDUCKGO TRỰC TIẾP CLIENT ---
+  // --- 3. TRA CỨU WEB DUCKDUCKGO ---
   async function searchWeb(query) {
     try {
       const endpoint = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
@@ -120,7 +103,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- HÀM GỬI TIN NHẮN TỚI MISTRAL API ---
+  // --- 4. XỬ LÝ NÚT TIẾP TỤC ---
+  async function handleContinue() {
+    if (conversationHistory.length === 0) return;
+
+    appendMessage("Hệ thống", "*(Luna đang viết tiếp...)*", "system-message");
+
+    try {
+      const response = await fetch('https://api.cohere.ai/v1/chat', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${COHERE_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'command-r-plus-08-2024',
+          preamble: window.SystemPrompt || '',
+          message: "[HỆ THỐNG]: Hãy giải thích hoặc viết tiếp ý còn dang dở một cách tự nhiên và chính xác.",
+          chat_history: conversationHistory,
+          temperature: 0.5,
+          max_tokens: 1200
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok || data.error) throw new Error(data.message || "Lỗi API");
+
+      const replyText = data.text;
+
+      const lastSysMsg = chatBody.querySelector('.system-message:last-child');
+      if (lastSysMsg) lastSysMsg.remove();
+
+      conversationHistory.push({ role: 'USER', message: "..." });
+      conversationHistory.push({ role: 'CHATBOT', message: replyText });
+
+      appendMessage("Luna", replyText, "luna-message");
+      saveToLocalStorage("...", replyText);
+
+    } catch (error) {
+      console.error("Lỗi khi tiếp tục:", error);
+      appendMessage("Hệ thống", "Có lỗi xảy ra khi tải tiếp.", "system-message");
+    }
+  }
+
+  // --- 5. GỬI TIN NHẮN TỚI COHERE API ---
   async function handleSend() {
     const question = promptInput ? promptInput.value.trim() : '';
     if (!question) return;
@@ -136,51 +162,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const finalPrompt = searchContext 
-      ? `[Thông tin tra cứu từ DuckDuckGo]:\n${searchContext}\n\n[Yêu cầu của người dùng]: ${question}`
+      ? `[Thông tin tra cứu từ DuckDuckGo]:\n${searchContext}\n\n[Yêu cầu]: ${question}`
       : question;
 
-    conversationHistory.push({ role: 'user', content: finalPrompt });
-
     try {
-      const apiMessages = [
-        { role: 'system', content: sysPrompt },
-        ...conversationHistory
-      ];
-
-      const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+      const response = await fetch('https://api.cohere.ai/v1/chat', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${MISTRAL_API_KEY}`,
+          'Authorization': `Bearer ${COHERE_API_KEY}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'mistral-small-latest', 
-          messages: apiMessages,
-          temperature: 0.3
+          model: 'command-r-plus-08-2024',
+          preamble: window.SystemPrompt || '', // Đọc prompt companion từ systemprompt.js
+          message: finalPrompt,
+          chat_history: conversationHistory,
+          temperature: 0.4, // Độ chính xác cao cho học tập
+          p: 0.9,
+          frequency_penalty: 0.2,
+          max_tokens: 1200
         })
       });
 
       const data = await response.json();
 
       if (!response.ok || data.error) {
-        console.error("Chi tiết lỗi từ Mistral:", data);
-        throw new Error(data.error?.message || "Lỗi kết nối Mistral API");
+        console.error("Chi tiết lỗi Cohere:", data);
+        throw new Error(data.message || "Lỗi kết nối Cohere API");
       }
       
-      // SỬA LỖI: Trích xuất replyText từ response
-      const replyText = data.choices[0].message.content;
+      const replyText = data.text;
 
-      // Trả lại câu hỏi gốc (ẩn context tra cứu) để lưu vào lịch sử
-      conversationHistory[conversationHistory.length - 1].content = question;
-      conversationHistory.push({ role: 'assistant', content: replyText });
+      conversationHistory.push({ role: 'USER', message: question });
+      conversationHistory.push({ role: 'CHATBOT', message: replyText });
 
       appendMessage("Luna", replyText, "luna-message");
       saveToLocalStorage(question, replyText);
 
     } catch (error) {
       console.error("Lỗi API:", error);
-      appendMessage("Hệ thống", "Có lỗi xảy ra. Vui lòng kiểm tra lại kết nối hoặc API Key!", "system-message");
-      conversationHistory.pop();
+      appendMessage("Hệ thống", "Có lỗi xảy ra. Vui lòng kiểm tra lại Cohere API Key!", "system-message");
     }
   }
 
@@ -198,9 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // --- 6. ĐỒNG BỘ NÚT VÀ SỰ KIỆN ---
   function resyncElements() {
     promptInput = document.getElementById('prompt');
     sendBtn = document.getElementById('sendBtn');
+    continueBtn = document.getElementById('continueBtn');
     chatBody = document.getElementById('chatBody');
     clearBtn = document.getElementById('clearBtn') || document.getElementById('clearHistoryBtn');
     newChatBtn = document.getElementById('newChatBtn');
@@ -210,6 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sendBtn) {
       sendBtn.removeEventListener('click', handleSend);
       sendBtn.addEventListener('click', handleSend);
+    }
+    if (continueBtn) {
+      continueBtn.removeEventListener('click', handleContinue);
+      continueBtn.addEventListener('click', handleContinue);
     }
     if (promptInput) {
       promptInput.removeEventListener('keypress', promptKeypressHandler);
