@@ -6,6 +6,7 @@
 
 body, html {
   height: 100%;
+  width: 100%;
   background-color: #0d1117;
   color: #c9d1d9;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -15,6 +16,7 @@ body, html {
 .app-container {
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
 /* Sidebar Lịch sử */
@@ -23,6 +25,7 @@ body, html {
   background-color: #121721;
   border-right: 1px solid #21262d;
   flex-shrink: 0;
+  height: 100%;
 }
 
 .history-item {
@@ -36,38 +39,45 @@ body, html {
   color: #58a6ff;
 }
 
-/* Khung Chat Chính */
+/* Cửa sổ Chat Main */
 .chat-main {
   background-color: #0d1117;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-header {
   background-color: #161b22;
+  flex-shrink: 0;
 }
 
 .avatar-circle {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: linear-gradient(135deg, #1f6feb, #8957e5);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   box-shadow: 0 0 10px rgba(88, 166, 255, 0.4);
 }
 
+/* Chat Body giãn 100% khoảng trống */
 .chat-body {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 /* Bong bóng tin nhắn */
 .message {
   max-width: 80%;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 8px;
-  line-height: 1.6;
+  line-height: 1.5;
   word-wrap: break-word;
 }
 
@@ -93,7 +103,12 @@ body, html {
   font-size: 0.85em;
 }
 
-/* Form & Scrollbar */
+/* Chat Footer nằm dính đít màn hình */
+.chat-footer {
+  background-color: #161b22;
+  flex-shrink: 0;
+}
+
 .form-control:focus {
   background-color: #0d1117;
   color: #f0f6fc;
