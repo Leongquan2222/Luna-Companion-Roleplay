@@ -13,13 +13,10 @@
 </head>
 <body>
 
-  <div class="companion-app d-flex">
-    <!-- 1. SIDEBAR LỊCH SỬ CHAT (Bên trái) -->
+  <div class="app-container d-flex">
+    <!-- SIDEBAR LỊCH SỬ CHAT (Bên trái) -->
     <aside class="sidebar d-flex flex-column p-3">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="m-0 font-weight-bold text-light">AURA ASSISTANT</h6>
-        <button id="newChatBtn" class="btn btn-sm btn-outline-primary">+ Mới</button>
-      </div>
+      <h6 class="fw-bold text-light mb-3">LỊCH SỬ TRÒ CHUYỆN</h6>
 
       <div class="mb-3">
         <input type="text" id="searchHistory" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Tìm lịch sử...">
@@ -34,28 +31,18 @@
       </div>
     </aside>
 
-    <!-- 2. COMPANION AVATAR DISPLAY (Ở giữa) -->
-    <section class="companion-stage d-flex flex-column align-items-center justify-content-center p-4">
-      <div class="avatar-card text-center">
-        <div class="avatar-glow mb-3">
-          <div class="avatar-placeholder">
-            <!-- Em có thể thay img/video của Luna hoặc Canvas Three.js vào đây -->
-            <span class="avatar-icon">🌙</span>
-          </div>
+    <!-- CỬA SỔ CHAT DUY NHẤT (Bên phải) -->
+    <main class="chat-main d-flex flex-column flex-grow-1">
+      <!-- Header tích hợp Avatar Luna -->
+      <header class="chat-header p-3 border-bottom border-secondary d-flex align-items-center gap-3">
+        <div class="avatar-circle">🌙</div>
+        <div>
+          <h5 class="m-0 text-light fw-bold">Luna</h5>
+          <span class="text-success small">● Online</span>
         </div>
-        <h4 class="text-light fw-bold mb-1">Luna</h4>
-        <div class="badge bg-success bg-opacity-20 text-success mb-2">● Online</div>
-        <p class="text-muted small px-3">Trợ lý AI & Companion cá nhân của em</p>
-      </div>
-    </section>
-
-    <!-- 3. CHAT INTERFACE (Bên phải) -->
-    <main class="chat-main d-flex flex-column">
-      <header class="chat-header p-3 border-bottom border-secondary d-flex justify-content-between align-items-center">
-        <span class="fw-semibold text-light">Trò chuyện cùng Luna</span>
       </header>
 
-      <!-- Chat Body -->
+      <!-- Khung tin nhắn -->
       <div id="chatBody" class="chat-body p-3 flex-grow-1 overflow-auto">
         <div class="message luna-message mb-3">
           <strong>Luna:</strong>
@@ -63,7 +50,7 @@
         </div>
       </div>
 
-      <!-- Chat Footer / Input -->
+      <!-- Ô nhập liệu -->
       <footer class="chat-footer p-3 border-top border-secondary">
         <div class="input-group mb-2">
           <input type="text" id="prompt" class="form-control bg-dark text-light border-secondary" placeholder="Nhập tin nhắn..." autocomplete="off">
