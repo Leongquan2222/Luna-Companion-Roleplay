@@ -1,121 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Luna Companion</title>
-
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-
-    <!-- KaTeX -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/latex.min.css">
-
-    <!-- CSS -->
-    <link id="theme-style" rel="stylesheet" href="theme-latte.css">
-    
-    <link rel="stylesheet" href="ai.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luna - AI Companion</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <!-- File CSS -->
+  <link rel="stylesheet" href="ai.css">
 </head>
-
 <body>
 
-    <div class="container-fluid vh-100">
+  <div class="companion-app d-flex">
+    <!-- 1. SIDEBAR LỊCH SỬ CHAT (Bên trái) -->
+    <aside class="sidebar d-flex flex-column p-3">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="m-0 font-weight-bold text-light">AURA ASSISTANT</h6>
+        <button id="newChatBtn" class="btn btn-sm btn-outline-primary">+ Mới</button>
+      </div>
 
-        <div class="row h-100">
+      <div class="mb-3">
+        <input type="text" id="searchHistory" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Tìm lịch sử...">
+      </div>
 
-            <!-- ================= Sidebar ================= -->
+      <div id="historyList" class="history-list flex-grow-1 overflow-auto">
+        <!-- Render động từ ai.js -->
+      </div>
 
-            <aside class="col-lg-3 col-md-4 sidebar">
+      <div class="pt-3 border-top border-secondary mt-auto">
+        <button id="clearBtn" class="btn btn-sm btn-outline-danger w-100">Xóa lịch sử</button>
+      </div>
+    </aside>
 
-                <h2 class="logo">
-                     Luna Companion
-                </h2>
-                <div id="historyList" class="history-list">
-
-                </div>
-                <button id="clearHistoryBtn" class="delete-btn">
-                
-                    <i class="bi bi-trash3-fill"></i>
-                
-                    Clear History
-                
-                </button>
-
-            </aside>
-
-            <!-- ================= Main ================= -->
-
-            <main class="col-lg-9 col-md-8 main-content">
-
-                <!-- Header -->
-
-                <div class="chat-header">
-                
-                    <div>
-                
-                        <h3>Luna Companion</h3>
-                
-                        <small>Your AI Companion</small>
-                
-                    </div>
-                
-                </div>
-
-                <!-- Chat -->
-
-                <section class="chat-body" id="chatBody">
-
-               </section>
-
-                <!-- Input -->
-
-                <footer class="chat-footer">
-
-                    <input id="prompt" type="text" autocomplete="on" placeholder="Nhập tin nhắn...">
-
-                    <button id="sendBtn" class="btn btn-primary">
-
-                        <i class="bi bi-send-fill"></i>
-
-                    </button>
-
-                </footer>
-
-            </main>
-
+    <!-- 2. COMPANION AVATAR DISPLAY (Ở giữa) -->
+    <section class="companion-stage d-flex flex-column align-items-center justify-content-center p-4">
+      <div class="avatar-card text-center">
+        <div class="avatar-glow mb-3">
+          <div class="avatar-placeholder">
+            <!-- Em có thể thay img/video của Luna hoặc Canvas Three.js vào đây -->
+            <span class="avatar-icon">🌙</span>
+          </div>
         </div>
+        <h4 class="text-light fw-bold mb-1">Luna</h4>
+        <div class="badge bg-success bg-opacity-20 text-success mb-2">● Online</div>
+        <p class="text-muted small px-3">Trợ lý AI & Companion cá nhân của em</p>
+      </div>
+    </section>
 
-    </div>
+    <!-- 3. CHAT INTERFACE (Bên phải) -->
+    <main class="chat-main d-flex flex-column">
+      <header class="chat-header p-3 border-bottom border-secondary d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-light">Trò chuyện cùng Luna</span>
+      </header>
 
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+      <!-- Chat Body -->
+      <div id="chatBody" class="chat-body p-3 flex-grow-1 overflow-auto">
+        <div class="message luna-message mb-3">
+          <strong>Luna:</strong>
+          <div>Chào em, em cần chị hỗ trợ gì hôm nay?</div>
+        </div>
+      </div>
 
-    <!-- Marked -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+      <!-- Chat Footer / Input -->
+      <footer class="chat-footer p-3 border-top border-secondary">
+        <div class="input-group mb-2">
+          <input type="text" id="prompt" class="form-control bg-dark text-light border-secondary" placeholder="Nhập tin nhắn..." autocomplete="off">
+          <button id="sendBtn" class="btn btn-primary" type="button">Gửi ➔</button>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button id="continueBtn" class="btn btn-sm btn-outline-secondary text-light">Viết tiếp...</button>
+        </div>
+      </footer>
+    </main>
+  </div>
 
-    <!-- KaTeX -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-
-    <!-- AI -->
-     <script defer src="systemprompt.js"></script>
-    <script defer src="ai.js"></script>
-    <script defer src="theme-changer.js"></script>
+  <!-- Thư viện bổ trợ -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  
+  <!-- File Logic -->
+  <script src="ai.js"></script>
 </body>
 </html>
