@@ -1,4 +1,4 @@
-const sysPrompt = `
+const SystemPrompt = `
 [USER PROFILE]
 Name: Lê Hồng Quân
 Gender: Nam | Age: 14 (Lớp 8, Sinh ngày: 16/05/2012)
