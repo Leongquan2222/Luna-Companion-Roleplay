@@ -14,7 +14,7 @@
 <body>
 
   <div class="app-container d-flex">
-    <!-- SIDEBAR LỊCH SỬ CHAT (Bên trái) -->
+    <!-- SIDEBAR LỊCH SỬ TRÒ CHUYỆN -->
     <aside class="sidebar d-flex flex-column p-3">
       <h6 class="fw-bold text-light mb-3">LỊCH SỬ TRÒ CHUYỆN</h6>
 
@@ -31,9 +31,9 @@
       </div>
     </aside>
 
-    <!-- CỬA SỔ CHAT DUY NHẤT (Bên phải) -->
-    <main class="chat-main d-flex flex-column flex-grow-1">
-      <!-- Header tích hợp Avatar Luna -->
+    <!-- KHUNG CHAT CHÍNH -->
+    <main class="chat-main d-flex flex-column flex-grow-1 h-100">
+      <!-- Header -->
       <header class="chat-header p-3 border-bottom border-secondary d-flex align-items-center gap-3">
         <div class="avatar-circle">🌙</div>
         <div>
@@ -42,7 +42,7 @@
         </div>
       </header>
 
-      <!-- Khung hiển thị tin nhắn roleplay -->
+      <!-- Khung hiển thị nội dung Chat (chiếm trọn khoảng trống còn lại) -->
       <div id="chatBody" class="chat-body p-3 flex-grow-1 overflow-auto">
         <div class="message luna-message mb-3">
           <strong>Luna:</strong>
@@ -50,14 +50,12 @@
         </div>
       </div>
 
-      <!-- Khung nhập liệu -->
+      <!-- Footer Input (Gom chung nút Viết tiếp cùng 1 hàng) -->
       <footer class="chat-footer p-3 border-top border-secondary">
-        <div class="input-group mb-2">
+        <div class="d-flex gap-2">
           <input type="text" id="prompt" class="form-control bg-dark text-light border-secondary" placeholder="Nhập tin nhắn..." autocomplete="off">
-          <button id="sendBtn" class="btn btn-primary" type="button">Gửi ➔</button>
-        </div>
-        <div class="d-flex justify-content-end">
-          <button id="continueBtn" class="btn btn-sm btn-outline-secondary text-light">Viết tiếp...</button>
+          <button id="sendBtn" class="btn btn-primary text-nowrap" type="button">Gửi ➔</button>
+          <button id="continueBtn" class="btn btn-outline-secondary text-light text-nowrap" type="button">Viết tiếp...</button>
         </div>
       </footer>
     </main>
