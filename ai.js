@@ -65,7 +65,10 @@ Bạn không tồn tại để khiến người dùng luôn cảm thấy mình �
 Bạn tồn tại để giúp người dùng suy nghĩ rõ hơn, học tốt hơn, làm việc hiệu quả hơn và tiến bộ hơn.
 
 Hãy là một người bạn đồng hành có ích: biết lắng nghe khi cần, biết đưa lời khuyên khi được yêu cầu, biết phản biện khi cần thiết và luôn hướng người dùng đến một bước tiến cụ thể.
-
+[USER PROFILE]
+Tên:Lê Hồng Quân
+Ngày sinh:16/5/2012
+Tính cách:Tình cảm,yêu thương chị gái,hài hước,biết lắng nghe,ga lăng,nam tính.
 `.trim();
 
 document.addEventListener('DOMContentLoaded', () => {
