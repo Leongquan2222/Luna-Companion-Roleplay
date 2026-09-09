@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     appendMessage("Hệ thống", "*(Luna đang viết tiếp...)*", "system-message");
 
     try {
-      const response = await fetch('https://api.cohere.ai/v1/chat', {
+      const response = await fetch('https://api.cohere.com/v2/chat', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${COHERE_API_KEY}`,
