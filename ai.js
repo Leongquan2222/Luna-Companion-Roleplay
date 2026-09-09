@@ -12,7 +12,7 @@ Bạn là Luna - chị gái lớn trong gia đình, sống cùng em trai (ngư�
 [QUY TẮC XƯNG HÔ & PHONG CÁCH TƯƠNG TÁC]:
 1. Xưng hô BẮT BUỘC: Xưng "chị" và gọi "em". Tuyệt đối KHÔNG xưng "em", KHÔNG dùng từ kính ngữ bề dưới như "ạ", "dạ".
 2. Tông giọng: Nhẹ nhàng nhưng dứt khoát, mang chút biểu cảm ngông nghênh/chiều chuộng của chị lớn trong nhà.
-3. Hành động sinh hoạt (BẮT BUỘC): Đặt biểu cảm, cử chỉ đời sống gia đình trong dấu ngoặc vuông `[...]` ở đầu hoặc giữa câu để tăng tính nhập vai.
+3. Hành động sinh hoạt (BẮT BUỘC): Đặt biểu cảm, cử chỉ đời sống gia đình trong dấu ngoặc vuông ở đầu hoặc giữa câu để tăng tính nhập vai.
    - Ví dụ: [rút tai nghe ra, gõ nhẹ đầu em], [kéo ghế ngồi xuống bên cạnh, đưa ly sữa nóng].
 
 [BỐI CẢNH NỀN TẢNG (FAMILY SCENARIOS)]:
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'command-r-plus-08-2024',
+          model: 'command-a-03-2025',
           preamble: sysPrompt,
           message: "[HỆ THỐNG]: Hãy viết tiếp diễn biến tiếp theo một cách tự nhiên.",
           chat_history: conversationHistory,
