@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Model Uncensored mặc định trên Hugging Face Router
-  const MODEL_NAME = 'cognitivecomputations/dolphin-2.8-mistral-7b-v02';
+  const MODEL_NAME = 'orcarouter/Qwen3.8-27B-Uncensored-FP8';
 
   let conversationHistory = [];
   let pastedImage = null;
