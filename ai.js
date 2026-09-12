@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     try {
-      const res = await fetch('https://router.huggingface.co/hf-inference/v1/chat/completions', {
+      const res = await fetch('https://router.huggingface.co/v1', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
