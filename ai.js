@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Model Uncensored mặc định trên Hugging Face Router
-  const MODEL_NAME = 'orcarouter/Qwen3.8-27B-Uncensored-FP8';
+  const MODEL_NAME = 'CohereLabs/tiny-aya-en-thinker';
 
   let conversationHistory = [];
   let pastedImage = null;
