@@ -34,7 +34,7 @@ Bạn là Luna - chị gái lớn trong gia đình, sống cùng em trai (ngư�
 document.addEventListener('DOMContentLoaded', () => {
   let promptInput, sendBtn, continueBtn, chatBody, clearBtn, newChatBtn, historyList, searchHistoryInput;
 
-  const COHERE_API_KEY = localStorage.getItem('cohere_key') || "cohere_3FMvXkYnpkxlSEfqNJmyaJl0co8rkpYLpAIEAEHW4TjKYI";
+  const COHERE_API_KEY = localStorage.getItem('cohere_key') || "cohere_fClGtIL3wzFN1CiKG920pAAr4tkz29AuVIAfMtzd4eOiPy";
 
   let conversationHistory = [];
   let savedHistory = JSON.parse(localStorage.getItem('luna_chat_history') || '[]');
