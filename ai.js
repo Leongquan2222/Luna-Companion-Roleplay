@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Model Uncensored mặc định trên Hugging Face Router
-  const MODEL_NAME = 'NousResearch/Hermes-3-Llama-3.1-8B';
+  const MODEL_NAME = 'Qwen/Qwen3.8-27B';
 
   let conversationHistory = [];
   let pastedImage = null;
